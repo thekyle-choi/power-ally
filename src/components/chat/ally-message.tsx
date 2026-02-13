@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useMemo, useRef, useEffect, useState } from "react";
+import { AnimatePresence } from "motion/react";
 import {
   parseMisoResponse,
   parseMisoResponsePartial,
@@ -9,7 +10,7 @@ import { useRevealText } from "@/hooks/use-reveal-text";
 import { MessageResponse } from "./message-primitives";
 import { StreamingQuestions } from "./streaming-questions";
 import { ProblemDefinitionCard } from "./problem-definition-card";
-import { StatusIndicator, getLoadingConfig } from "./status-indicator";
+import { FormSkeleton, ProblemDefinitionSkeleton } from "./skeleton-form";
 
 // =============================================================================
 // AllyMessage Component
@@ -33,15 +34,24 @@ export const AllyMessage = memo(
     const wasStreamingRef = useRef(false);
     const [shouldReveal, setShouldReveal] = useState(false);
 
+    // Detect upcoming content from raw streaming text
+    const hasQuestionsHint = isStreaming && text.includes('"questions"');
+    const hasProblemDefHint = isStreaming && text.includes('"problem_definition"');
+
+    // Cache hints so they persist into reveal phase
+    const expectsQuestionsRef = useRef(false);
+    const expectsProblemDefRef = useRef(false);
+
     useEffect(() => {
       if (isStreaming) {
         wasStreamingRef.current = true;
+        if (hasQuestionsHint) expectsQuestionsRef.current = true;
+        if (hasProblemDefHint) expectsProblemDefRef.current = true;
       } else if (wasStreamingRef.current) {
-        // Streaming just finished → enable reveal
         wasStreamingRef.current = false;
         setShouldReveal(true);
       }
-    }, [isStreaming]);
+    }, [isStreaming, hasQuestionsHint, hasProblemDefHint]);
 
     const parsed = useMemo(() => {
       if (!text) return null;
@@ -60,23 +70,17 @@ export const AllyMessage = memo(
     useEffect(() => {
       if (shouldReveal && progress >= 1) {
         setShouldReveal(false);
+        expectsQuestionsRef.current = false;
+        expectsProblemDefRef.current = false;
       }
     }, [shouldReveal, progress]);
 
     if (!parsed) return null;
 
-    const {
-      questions,
-      loadingType,
-      problemDefinition,
-    } = parsed;
-
-    const loadingConfig = getLoadingConfig(loadingType ?? null);
-    const showLoadingIndicator = isStreaming && loadingConfig;
+    const { questions, problemDefinition } = parsed;
 
     // Persist questions if message content is replaced without <form>
     const cachedQuestionsRef = useRef<typeof questions>([]);
-
     useEffect(() => {
       if (questions.length > 0) {
         cachedQuestionsRef.current = questions;
@@ -89,20 +93,27 @@ export const AllyMessage = memo(
     const showQuestions = !isStreaming && resolvedQuestions.length > 0;
     const revealInProgress = shouldReveal && progress < 1;
 
-    // Show form/card when reveal progress > 0.5 (or no reveal)
+    // Show form/card when reveal progress > 0.5 (or no reveal active)
     const showFormByProgress = !revealInProgress || progress > 0.5;
+
+    // --- Skeleton conditions ---
+    // During streaming: message appeared + raw text hints questions/pd are coming but not parsed yet
+    const showStreamingFormSkeleton =
+      isStreaming && message.length > 0 && hasQuestionsHint && questions.length === 0;
+    const showStreamingPdSkeleton =
+      isStreaming && message.length > 0 && hasProblemDefHint && !problemDefinition;
+
+    // During reveal: we know content exists but haven't shown it yet (progress < 0.5)
+    const showRevealFormSkeleton =
+      revealInProgress && !showFormByProgress && resolvedQuestions.length > 0;
+    const showRevealPdSkeleton =
+      revealInProgress && !showFormByProgress && !!problemDefinition;
+
+    const formSkeletonVisible = showStreamingFormSkeleton || showRevealFormSkeleton;
+    const pdSkeletonVisible = showStreamingPdSkeleton || showRevealPdSkeleton;
 
     return (
       <>
-        {/* Loading indicator */}
-        {showLoadingIndicator && loadingConfig && (
-          <StatusIndicator
-            label={loadingConfig.label}
-            description={loadingConfig.message}
-            isLoading
-          />
-        )}
-
         {/* Message text */}
         {message && (
           <MessageResponse>
@@ -110,23 +121,36 @@ export const AllyMessage = memo(
           </MessageResponse>
         )}
 
-        {/* Problem Definition Card */}
-        {problemDefinition && showFormByProgress && (
-          <ProblemDefinitionCard data={problemDefinition} animateEntrance={shouldReveal} />
-        )}
+        {/* Form: skeleton → real */}
+        <AnimatePresence mode="wait">
+          {formSkeletonVisible ? (
+            <FormSkeleton key="form-skeleton" />
+          ) : showQuestions && showFormByProgress ? (
+            <StreamingQuestions
+              key="form-real"
+              questions={resolvedQuestions}
+              isStreaming={false}
+              isActive={isActive}
+              animateEntrance={shouldReveal}
+              onSubmit={(answers) => {
+                onQuestionSubmit?.(answers);
+              }}
+            />
+          ) : null}
+        </AnimatePresence>
 
-        {/* Questions form */}
-        {showQuestions && showFormByProgress && (
-          <StreamingQuestions
-            questions={resolvedQuestions}
-            isStreaming={false}
-            isActive={isActive}
-            animateEntrance={shouldReveal}
-            onSubmit={(answers) => {
-              onQuestionSubmit?.(answers);
-            }}
-          />
-        )}
+        {/* Problem definition: skeleton → real */}
+        <AnimatePresence mode="wait">
+          {pdSkeletonVisible ? (
+            <ProblemDefinitionSkeleton key="pd-skeleton" />
+          ) : problemDefinition && showFormByProgress ? (
+            <ProblemDefinitionCard
+              key="pd-real"
+              data={problemDefinition}
+              animateEntrance={shouldReveal}
+            />
+          ) : null}
+        </AnimatePresence>
       </>
     );
   }
