@@ -60,7 +60,7 @@ export const ProblemDefinitionCard = memo(({ data, animateEntrance = false }: Pr
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/80 transition-colors font-ui text-xs shrink-0"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-text-secondary active:text-text-primary hover:text-text-primary active:bg-white/80 hover:bg-white/80 transition-colors font-ui text-xs shrink-0 min-h-[44px]"
         >
           {copied ? (
             <>

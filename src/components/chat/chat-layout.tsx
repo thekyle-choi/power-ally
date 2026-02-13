@@ -230,25 +230,25 @@ export function ChatLayout() {
   // ===========================================================================
   if (!hasMessages) {
     return (
-      <div className="min-h-screen flex flex-col landing-bg">
+      <div className="min-h-[100dvh] flex flex-col landing-bg">
         <div className="landing-orb" />
         {/* History link */}
         {sessionsWithMessages.length > 0 && (
-          <div className="fixed top-6 right-6 z-10 animate-fade-in">
+          <div className="fixed top-4 right-4 md:top-6 md:right-6 z-10 animate-fade-in">
             <div className="relative">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowHistory(!showHistory);
                 }}
-                className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5"
+                className="font-ui text-sm text-text-secondary active:text-text-primary hover:text-text-primary transition-colors flex items-center gap-1.5 min-h-[44px] min-w-[44px] justify-center"
               >
-                <Clock className="size-3.5" />
-                이전 대화
+                <Clock className="size-4" />
+                <span className="hidden sm:inline">이전 대화</span>
               </button>
 
               {showHistory && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-white/90 backdrop-blur-xl border border-divider/60 rounded-2xl shadow-xl z-50 font-ui overflow-hidden">
+                <div className="absolute right-0 top-full mt-2 w-[min(320px,calc(100vw-2rem))] bg-white/90 backdrop-blur-xl border border-divider/60 rounded-2xl shadow-xl z-50 font-ui overflow-hidden">
                   <div className="px-4 pt-4 pb-2">
                     <p className="text-xs font-semibold uppercase tracking-widest text-text-tertiary">이전 대화</p>
                   </div>
@@ -268,7 +268,7 @@ export function ChatLayout() {
                             setShowHistory(false);
                           }
                         }}
-                        className="group/item flex items-center justify-between px-3 py-2.5 rounded-lg text-sm hover:bg-highlight transition-colors cursor-pointer"
+                        className="group/item flex items-center justify-between px-3 py-3 rounded-lg text-sm active:bg-highlight hover:bg-highlight transition-colors cursor-pointer"
                       >
                         <span className="truncate text-left text-text-primary">
                           {session.title}
@@ -278,9 +278,9 @@ export function ChatLayout() {
                             e.stopPropagation();
                             deleteSession(session.id);
                           }}
-                          className="text-text-tertiary hover:text-text-primary ml-2 shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity"
+                          className="text-text-tertiary hover:text-text-primary active:text-text-primary ml-2 shrink-0 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity min-w-[44px] min-h-[44px] flex items-center justify-center -mr-2"
                         >
-                          <X className="size-3.5" />
+                          <X className="size-4" />
                         </button>
                       </div>
                     ))}
@@ -292,14 +292,14 @@ export function ChatLayout() {
         )}
 
         {/* Centered content */}
-        <div className="flex-1 flex items-center justify-center px-6">
+        <div className="flex-1 flex items-center justify-center px-5 md:px-6">
           <div className="w-full max-w-[540px]">
             {/* Logo */}
-            <div className="text-center mb-12 animate-fade-in">
-              <h1 className="text-[42px] font-bold tracking-[-0.02em] text-text-primary mb-3">
+            <div className="text-center mb-8 md:mb-12 animate-fade-in">
+              <h1 className="text-3xl md:text-[42px] font-bold tracking-[-0.02em] text-text-primary mb-2 md:mb-3">
                 Unfold
               </h1>
-              <p className="text-lg text-text-secondary">
+              <p className="text-base md:text-lg text-text-secondary">
                 어떤 문제를 해결하고 싶으신가요?
               </p>
             </div>
@@ -313,15 +313,14 @@ export function ChatLayout() {
                   onChange={(e) => setLandingValue(e.target.value)}
                   onKeyDown={handleLandingKeyDown}
                   placeholder="풀고 싶은 문제를 자유롭게 적어주세요..."
-                  className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-text-primary placeholder:text-text-tertiary text-lg resize-none px-5 pt-5 pb-14 min-h-[56px] leading-relaxed"
+                  className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-text-primary placeholder:text-text-tertiary text-base md:text-lg resize-none px-4 md:px-5 pt-4 md:pt-5 pb-14 min-h-[56px] leading-relaxed"
                   rows={2}
-                  autoFocus
                 />
-                <div className="absolute right-4 bottom-4">
+                <div className="absolute right-3 bottom-3 md:right-4 md:bottom-4">
                   <button
                     onClick={() => handleSendMessage(landingValue)}
                     disabled={!landingValue.trim()}
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-text-primary text-white hover:bg-text-primary/80 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                    className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-text-primary text-white active:bg-text-primary/70 hover:bg-text-primary/80 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                   >
                     <ArrowUp className="size-[18px]" strokeWidth={2} />
                   </button>
@@ -330,12 +329,12 @@ export function ChatLayout() {
             </div>
 
             {/* Suggestions */}
-            <div className="mt-5 flex flex-wrap justify-center gap-2 animate-fade-in-delay-2">
+            <div className="mt-4 md:mt-5 flex flex-wrap justify-center gap-2 animate-fade-in-delay-2">
               {SUGGESTIONS.map((suggestion) => (
                 <button
                   key={suggestion}
                   onClick={() => handleSendMessage(suggestion)}
-                  className="font-ui text-[13px] text-text-secondary px-4 py-2 rounded-full border border-divider hover:border-text-secondary hover:text-text-primary transition-colors"
+                  className="font-ui text-[13px] text-text-secondary px-4 py-2.5 rounded-full border border-divider active:border-text-secondary active:text-text-primary hover:border-text-secondary hover:text-text-primary transition-colors"
                 >
                   {suggestion}
                 </button>
@@ -345,12 +344,12 @@ export function ChatLayout() {
         </div>
 
         {/* Footer */}
-        <div className="absolute left-5 right-5 bottom-5 z-10 flex items-center justify-between">
+        <div className="absolute left-4 right-4 bottom-4 md:left-5 md:right-5 md:bottom-5 z-10 flex items-center justify-between pb-[env(safe-area-inset-bottom)]">
           <a
             href="https://gsholdings.notion.site/306f800bd1c180899a38f4c5379c1cba?pvs=105"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-ui text-xs text-text-secondary px-4 py-2 rounded-full border border-divider hover:border-text-secondary hover:text-text-primary bg-white/60 backdrop-blur-sm transition-colors"
+            className="font-ui text-xs text-text-secondary px-4 py-2.5 rounded-full border border-divider active:border-text-secondary active:text-text-primary hover:border-text-secondary hover:text-text-primary bg-white/60 backdrop-blur-sm transition-colors"
           >
             의견 접수하기
           </a>
@@ -375,23 +374,23 @@ export function ChatLayout() {
   // ACTIVE CONVERSATION VIEW
   // ===========================================================================
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-[100dvh] flex flex-col bg-white">
       {/* Header */}
-      <header className="w-full px-6 py-4 flex justify-between items-center z-20 bg-white/80 backdrop-blur-sm border-b border-divider/50">
+      <header className="w-full px-4 md:px-6 py-3 md:py-4 flex justify-between items-center z-20 bg-white/80 backdrop-blur-sm border-b border-divider/50 pt-[max(0.75rem,env(safe-area-inset-top))]">
         <button
           onClick={handleGoHome}
-          className="text-xl font-bold tracking-[-0.02em] text-text-primary hover:opacity-60 transition-opacity"
+          className="text-xl font-bold tracking-[-0.02em] text-text-primary active:opacity-60 hover:opacity-60 transition-opacity min-h-[44px] flex items-center"
         >
           Unfold
         </button>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           <button
             onClick={handleGoHome}
-            className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-highlight"
+            className="font-ui text-sm text-text-secondary active:text-text-primary hover:text-text-primary transition-colors flex items-center gap-1.5 px-3 py-2 rounded-full active:bg-highlight hover:bg-highlight min-h-[44px]"
           >
-            <Plus className="size-3.5" />
-            새 질문
+            <Plus className="size-4" />
+            <span className="hidden sm:inline">새 질문</span>
           </button>
 
           {sessionsWithMessages.length > 0 && (
@@ -401,13 +400,13 @@ export function ChatLayout() {
                   e.stopPropagation();
                   setShowHistory(!showHistory);
                 }}
-                className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-highlight"
+                className="font-ui text-sm text-text-secondary active:text-text-primary hover:text-text-primary transition-colors flex items-center gap-1.5 px-3 py-2 rounded-full active:bg-highlight hover:bg-highlight min-h-[44px] min-w-[44px] justify-center"
               >
-                <Clock className="size-3.5" />
+                <Clock className="size-4" />
               </button>
 
               {showHistory && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-white/90 backdrop-blur-xl border border-divider/60 rounded-2xl shadow-xl z-50 font-ui overflow-hidden">
+                <div className="absolute right-0 top-full mt-2 w-[min(320px,calc(100vw-2rem))] bg-white/90 backdrop-blur-xl border border-divider/60 rounded-2xl shadow-xl z-50 font-ui overflow-hidden">
                   <div className="px-4 pt-4 pb-2">
                     <p className="text-xs font-semibold uppercase tracking-widest text-text-tertiary">이전 대화</p>
                   </div>
@@ -427,7 +426,7 @@ export function ChatLayout() {
                             setShowHistory(false);
                           }
                         }}
-                        className="group/item flex items-center justify-between px-3 py-2.5 rounded-lg text-sm hover:bg-highlight transition-colors cursor-pointer"
+                        className="group/item flex items-center justify-between px-3 py-3 rounded-lg text-sm active:bg-highlight hover:bg-highlight transition-colors cursor-pointer"
                       >
                         <span className="truncate text-left text-text-primary">
                           {session.title}
@@ -437,9 +436,9 @@ export function ChatLayout() {
                             e.stopPropagation();
                             deleteSession(session.id);
                           }}
-                          className="text-text-tertiary hover:text-text-primary ml-2 shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity"
+                          className="text-text-tertiary hover:text-text-primary active:text-text-primary ml-2 shrink-0 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity min-w-[44px] min-h-[44px] flex items-center justify-center -mr-2"
                         >
-                          <X className="size-3.5" />
+                          <X className="size-4" />
                         </button>
                       </div>
                     ))}
@@ -453,7 +452,7 @@ export function ChatLayout() {
 
       {/* Content */}
       <main ref={scrollRef} className="flex-1 overflow-y-auto no-scrollbar">
-        <div className="max-w-[780px] mx-auto px-6 pt-10 pb-16">
+        <div className="max-w-[780px] mx-auto px-4 md:px-6 pt-6 md:pt-10 pb-8 md:pb-16 pb-[max(2rem,calc(env(safe-area-inset-bottom)+1rem))]">
           <ChatMessages
             messages={messages}
             isStreaming={isStreaming}

@@ -65,12 +65,14 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
     font-family: 'Charter', 'Bitstream Charter', 'Noto Serif KR', 'Sitka Text', Cambria, Georgia, serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
   }
 }
 
@@ -198,6 +200,7 @@
   filter: blur(80px);
   opacity: 0;
   animation-fill-mode: forwards;
+  pointer-events: none;
 }
 
 .landing-bg::before {
@@ -238,9 +241,16 @@
 /* Streamdown prose — Unfold style */
 .prose-unfold {
   font-family: 'Charter', 'Bitstream Charter', 'Noto Serif KR', 'Sitka Text', Cambria, Georgia, serif;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 16px;
+  line-height: 26px;
   color: #242424;
+}
+
+@media (min-width: 768px) {
+  .prose-unfold {
+    font-size: 18px;
+    line-height: 28px;
+  }
 }
 
 .prose-unfold p {

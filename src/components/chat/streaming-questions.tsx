@@ -56,22 +56,22 @@ const OptionItem = memo(({
   <label
     onClick={disabled ? undefined : (e) => { e.preventDefault(); onClick(); }}
     className={cn(
-      "flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-white cursor-pointer transition-all border-2",
+      "flex items-center gap-3 px-3.5 py-3 md:py-2.5 rounded-lg bg-white cursor-pointer transition-all border-2 active:scale-[0.98]",
       isSelected
         ? "border-text-primary"
-        : "border-transparent hover:border-divider",
-      disabled && "cursor-default opacity-60"
+        : "border-transparent hover:border-divider active:border-divider",
+      disabled && "cursor-default opacity-60 active:scale-100"
     )}
   >
     <input
       type={isMultiSelect ? "checkbox" : "radio"}
       checked={isSelected}
       readOnly
-      className="w-4 h-4 shrink-0 pointer-events-none"
+      className="w-5 h-5 md:w-4 md:h-4 shrink-0 pointer-events-none"
       style={{ accentColor: "#242424" }}
     />
     <div className="flex flex-col">
-      <span className="font-ui text-[14px] text-text-primary">{label}</span>
+      <span className="font-ui text-[15px] md:text-[14px] text-text-primary">{label}</span>
       {description && (
         <span className="font-ui text-xs text-text-secondary mt-0.5">{description}</span>
       )}
@@ -105,18 +105,18 @@ const OtherOptionItem = memo(({
   <label
     onClick={disabled ? undefined : (e) => { e.preventDefault(); onSelect(); }}
     className={cn(
-      "flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-white cursor-pointer transition-all border-2",
+      "flex items-center gap-3 px-3.5 py-3 md:py-2.5 rounded-lg bg-white cursor-pointer transition-all border-2 active:scale-[0.98]",
       isSelected
         ? "border-text-primary"
-        : "border-transparent hover:border-divider",
-      disabled && "cursor-default opacity-60"
+        : "border-transparent hover:border-divider active:border-divider",
+      disabled && "cursor-default opacity-60 active:scale-100"
     )}
   >
     <input
       type={isMultiSelect ? "checkbox" : "radio"}
       checked={isSelected}
       readOnly
-      className="w-4 h-4 shrink-0 pointer-events-none"
+      className="w-5 h-5 md:w-4 md:h-4 shrink-0 pointer-events-none"
       style={{ accentColor: "#242424" }}
     />
     <Input
@@ -265,7 +265,7 @@ const PaginationDots = memo(({ total, current, onDotClick }: PaginationDotsProps
             key={index}
             type="button"
             onClick={() => onDotClick(index)}
-            className="flex cursor-pointer items-center justify-center"
+            className="flex cursor-pointer items-center justify-center p-2"
             aria-label={`Go to question ${index + 1} of ${total}`}
             aria-current={isCurrentDot ? "step" : undefined}
           >
@@ -274,7 +274,7 @@ const PaginationDots = memo(({ total, current, onDotClick }: PaginationDotsProps
                 "rounded-full transition-all",
                 isCurrentDot
                   ? "h-2 w-5 bg-text-primary"
-                  : "size-2 bg-text-secondary/30 hover:bg-text-secondary/60"
+                  : "size-2 bg-text-secondary/30 hover:bg-text-secondary/60 active:bg-text-secondary/60"
               )}
             />
           </button>
@@ -558,7 +558,7 @@ export const StreamingQuestions = memo(({
           ) : (
             <button
               onClick={goToPrev}
-              className="font-ui text-sm text-text-secondary hover:text-text-primary transition-colors"
+              className="font-ui text-sm text-text-secondary active:text-text-primary hover:text-text-primary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               이전
             </button>
@@ -571,14 +571,14 @@ export const StreamingQuestions = memo(({
           {isLastStep ? (
             <button
               onClick={handleSubmit}
-              className="font-ui text-sm px-5 py-2 bg-text-primary text-white rounded-full hover:bg-text-primary/90 transition-colors"
+              className="font-ui text-sm px-5 py-2.5 bg-text-primary text-white rounded-full active:bg-text-primary/80 hover:bg-text-primary/90 transition-colors min-h-[44px]"
             >
               제출
             </button>
           ) : (
             <button
               onClick={goToNext}
-              className="font-ui text-sm text-text-primary font-medium hover:opacity-70 transition-opacity"
+              className="font-ui text-sm text-text-primary font-medium active:opacity-70 hover:opacity-70 transition-opacity min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               다음
             </button>

@@ -63,16 +63,16 @@ export function ChatInput({
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="추가 질문이나 답변을 입력하세요..."
-          className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-text-primary placeholder:text-text-tertiary text-base font-ui resize-none pl-5 pr-14 py-3.5 min-h-[48px] leading-relaxed"
+          className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-text-primary placeholder:text-text-tertiary text-base font-ui resize-none pl-4 md:pl-5 pr-14 py-3.5 min-h-[48px] leading-relaxed"
           disabled={disabled}
           rows={1}
         />
-        <div className="absolute right-3 bottom-3">
+        <div className="absolute right-2.5 bottom-2.5 md:right-3 md:bottom-3">
           {isStreaming ? (
             <button
               type="button"
               onClick={onStop}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-text-primary text-white hover:bg-text-primary/80 transition-colors"
+              className="w-10 h-10 md:w-8 md:h-8 flex items-center justify-center rounded-full bg-text-primary text-white active:bg-text-primary/70 hover:bg-text-primary/80 transition-colors"
             >
               <Square className="size-3 fill-current" />
             </button>
@@ -80,7 +80,7 @@ export function ChatInput({
             <button
               type="submit"
               disabled={!value.trim() || disabled}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-text-primary text-white hover:bg-text-primary/80 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+              className="w-10 h-10 md:w-8 md:h-8 flex items-center justify-center rounded-full bg-text-primary text-white active:bg-text-primary/70 hover:bg-text-primary/80 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
             >
               <ArrowUp className="size-4" strokeWidth={2} />
             </button>
