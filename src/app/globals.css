@@ -1,26 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&display=swap');
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: 'Charter', 'Bitstream Charter', 'Noto Serif KR', 'Sitka Text', Cambria, Georgia, serif;
+  --color-text-primary: #242424;
+  --color-text-secondary: #757575;
+  --color-text-tertiary: #b3b3b3;
+  --color-divider: #e6e6e6;
+  --color-highlight: #f7f7f7;
+  --color-success: #1a8917;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #242424;
+  --card: #ffffff;
+  --card-foreground: #242424;
+  --popover: #ffffff;
+  --popover-foreground: #242424;
+  --primary: #242424;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #242424;
+  --muted: #f7f7f7;
+  --muted-foreground: #757575;
+  --accent: #f7f7f7;
+  --accent-foreground: #242424;
+  --destructive: #dc2626;
+  --border: #e6e6e6;
+  --input: #e6e6e6;
+  --ring: #242424;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Charter', 'Bitstream Charter', 'Noto Serif KR', 'Sitka Text', Cambria, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Sans-serif UI font */
+.font-ui {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hover scrollbar — thin, inside, only on hover */
+.hover-scrollbar {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.hover-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.hover-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hover-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.hover-scrollbar:hover {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+}
+.hover-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes unfoldPulse {
+  0%, 100% { height: 4px; opacity: 0.35; }
+  50% { height: 16px; opacity: 1; }
+}
+
+.unfold-bar {
+  width: 3px;
+  height: 4px;
+  border-radius: 2px;
+  background: #242424;
+  display: inline-block;
+  opacity: 0.35;
+  animation: unfoldPulse 1.2s infinite ease-in-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.15s forwards;
+}
+
+.animate-fade-in-delay-2 {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.3s forwards;
+}
+
+/* Unfold landing background */
+@keyframes unfoldDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.1); }
+  50% { transform: translate(-30px, 50px) scale(0.95); }
+  75% { transform: translate(-60px, -20px) scale(1.05); }
+}
+
+@keyframes unfoldDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-50px, 60px) scale(1.08); }
+  50% { transform: translate(40px, -30px) scale(0.92); }
+  75% { transform: translate(30px, 40px) scale(1.04); }
+}
+
+@keyframes unfoldDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(70px, 30px) scale(1.06); }
+  66% { transform: translate(-40px, -50px) scale(0.97); }
+}
+
+.landing-bg {
+  position: relative;
+  overflow: hidden;
+  background: #fefefe;
+}
+
+.landing-bg::before,
+.landing-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.landing-bg::before {
+  width: 600px;
+  height: 600px;
+  top: -10%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(220, 215, 255, 0.5) 0%, rgba(200, 220, 255, 0.3) 50%, transparent 70%);
+  animation: unfoldDrift1 20s ease-in-out infinite, fadeIn 1.5s ease-out 0.2s forwards;
+}
+
+.landing-bg::after {
+  width: 500px;
+  height: 500px;
+  bottom: -5%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(255, 220, 210, 0.4) 0%, rgba(255, 235, 210, 0.25) 50%, transparent 70%);
+  animation: unfoldDrift2 25s ease-in-out infinite, fadeIn 1.5s ease-out 0.5s forwards;
+}
+
+.landing-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: 0;
+  animation: unfoldDrift3 22s ease-in-out infinite, fadeIn 1.5s ease-out 0.8s forwards;
+  width: 400px;
+  height: 400px;
+  top: 40%;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: -200px;
+  background: radial-gradient(circle, rgba(210, 235, 220, 0.35) 0%, rgba(220, 240, 235, 0.2) 50%, transparent 70%);
+}
+
+
+/* Streamdown prose — Unfold style */
+.prose-unfold {
+  font-family: 'Charter', 'Bitstream Charter', 'Noto Serif KR', 'Sitka Text', Cambria, Georgia, serif;
+  font-size: 18px;
+  line-height: 28px;
+  color: #242424;
+}
+
+.prose-unfold p {
+  margin-bottom: 1.25em;
+}
+
+.prose-unfold p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-unfold strong {
+  font-weight: 700;
+}
+
+.prose-unfold em {
+  font-style: italic;
+}
+
+.prose-unfold ul, .prose-unfold ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
+}
+
+.prose-unfold li {
+  margin-bottom: 0.375em;
+}
+
+.prose-unfold code {
+  font-size: 0.875em;
+  background: #f7f7f7;
+  padding: 0.125em 0.375em;
+  border-radius: 3px;
+}
+
+.prose-unfold pre {
+  background: #f7f7f7;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1.25em;
+}
+
+.prose-unfold blockquote {
+  border-left: 2px solid #242424;
+  padding-left: 1.25em;
+  font-style: italic;
+  color: #757575;
+}
+
+.prose-unfold a {
+  color: #242424;
+  text-decoration: underline;
+}
+
+.prose-unfold h1, .prose-unfold h2, .prose-unfold h3 {
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-unfold [data-table-wrapper] button[type='button'] {
+  display: none;
 }

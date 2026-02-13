@@ -1,0 +1,26 @@
+{
+  "message": "창고에서 물건 찾느라 시간 낭비하는 게 정말 큰 스트레스죠! 😭 현장 상황을 조금 더 이해하기 위해 몇 가지만 여쭤볼게요.",
+  "questions": [
+    {
+      "id": "target_persona",
+      "type": "select",
+      "header": "주요 사용자",
+      "question": "이 앱을 현장에서 누가 가장 많이 쓰게 될까요?",
+      "options": [
+        { "label": "창고 관리자", "description": "입출고 내역을 PC로 관리하고 전반적인 재고를 책임짐" },
+        { "label": "현장 피킹 작업자", "description": "주문서를 보고 물건을 찾아 포장하는 업무 수행" },
+        { "label": "배송 기사", "description": "물건을 싣고 나가면서 재고 불일치를 자주 발견함" }
+      ]
+    },
+    {
+      "id": "pain_context",
+      "type": "multiselect",
+      "header": "발생 원인",
+      "question": "물건 찾기가 힘든 가장 큰 이유는 무엇인가요?",
+      "options": [
+        { "label": "위치 정보 부재", "description": "전산상 위치와 실제 물건 위치가 다름" },
+        { "label": "비슷한 상품 혼동", "description": "포장이 비슷해서 육안으로 구분이 어려움" }
+      ]
+    }
+  ]
+}
