@@ -344,18 +344,28 @@ export function ChatLayout() {
           </div>
         </div>
 
-        {/* Credit */}
-        <div className="absolute right-4 bottom-4 flex items-center gap-1.5">
-          <Image
-            src="/character.png"
-            alt="Unfold character"
-            width={20}
-            height={20}
-            className="object-contain opacity-50"
-          />
-          <span className="font-ui text-[11px] text-text-tertiary/50 tracking-wide">
-            PLAI MAKER - KYLE
-          </span>
+        {/* Footer */}
+        <div className="absolute left-5 right-5 bottom-5 z-10 flex items-center justify-between">
+          <a
+            href="https://gsholdings.notion.site/306f800bd1c180899a38f4c5379c1cba?pvs=105"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-ui text-xs text-text-secondary px-4 py-2 rounded-full border border-divider hover:border-text-secondary hover:text-text-primary bg-white/60 backdrop-blur-sm transition-colors"
+          >
+            의견 접수하기
+          </a>
+          <div className="flex items-center gap-1.5">
+            <Image
+              src="/character.png"
+              alt="Unfold character"
+              width={18}
+              height={18}
+              className="object-contain opacity-50"
+            />
+            <span className="font-ui text-xs text-text-tertiary/60">
+              52g Studio
+            </span>
+          </div>
         </div>
       </div>
     );
